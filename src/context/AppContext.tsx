@@ -21,6 +21,8 @@ interface AppContextType {
   setCurrentConversation: (id: string | null) => void;
   selectedAgent: AIAgent | null;
   setSelectedAgent: (agent: AIAgent | null) => void;
+  isSidebarCollapsed: boolean;
+  setIsSidebarCollapsed: (collapsed: boolean) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -31,6 +33,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [messages, setMessages] = useState<{ [key: string]: Message[] }>(demoMessages);
   const [currentConversation, setCurrentConversation] = useState<string | null>(null);
   const [selectedAgent, setSelectedAgent] = useState<AIAgent | null>(null);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
 
   const addConversation = (conversation: Conversation) => {
     setConversations(prev => [conversation, ...prev]);
@@ -55,7 +58,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         currentConversation,
         setCurrentConversation,
         selectedAgent,
-        setSelectedAgent
+        setSelectedAgent,
+        isSidebarCollapsed,
+        setIsSidebarCollapsed
       }}
     >
       {children}
