@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { FaChartLine, FaRobot, FaComments, FaStar, FaChevronDown } from 'react-icons/fa';
 import { useApp } from '../context/AppContext';
-import CreateAgent from '../components/CreateAgent';
 import SMESidebar from '../components/SMESidebar';
 
 const SMEDashboard: React.FC = () => {
@@ -66,9 +65,20 @@ const SMEDashboard: React.FC = () => {
         {/* Dashboard Content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {!hasAgents ? (
-            /* Show Create Agent prompt when no agents exist */
+            /* Show empty state when no agents exist */
             <div className="flex items-center justify-center min-h-[60vh]">
-              <CreateAgent />
+              <div className="card p-12 text-center max-w-2xl">
+                <div className="inline-flex items-center justify-center w-24 h-24 bg-primary-100 rounded-full mb-6">
+                  <FaRobot className="text-5xl text-primary-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-800 mb-4">No Agents Yet</h3>
+                <p className="text-gray-600 text-lg mb-2">
+                  You haven't created any agents yet.
+                </p>
+                <p className="text-gray-500">
+                  Start by creating your first AI agent to begin engaging with users and earning revenue.
+                </p>
+              </div>
             </div>
           ) : (
             /* Show Dashboard when agents exist */
@@ -273,16 +283,6 @@ const SMEDashboard: React.FC = () => {
                 <div>
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                     <h2 className="text-2xl font-bold text-gray-800">My Agents</h2>
-                    <button
-                      onClick={() => {
-                        // Could open create agent flow in modal
-                        alert('Create new agent feature - opens CreateAgent component');
-                      }}
-                      className="btn-primary flex items-center justify-center whitespace-nowrap"
-                    >
-                      <FaRobot className="mr-2" />
-                      Create New Agent
-                    </button>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {smeAgents.map(agent => (
