@@ -10,6 +10,37 @@ interface User {
   wallet: number;
 }
 
+export interface SMEAgent {
+  id: string;
+  name: string;
+  speciality: string;
+  location: string;
+  currency: string;
+  image: string;
+  professionalDetails: string;
+  knowledgeBase: string;
+  knowledgeBaseFiles?: string[];
+  rate: number;
+  rateCurrency: string;
+  createdAt: string;
+  totalChats: number;
+  activeChats: number;
+  engagementScore: number;
+  rating: number;
+  totalRevenue: number;
+}
+
+export interface AgentChat {
+  id: string;
+  agentId: string;
+  userId: string;
+  userName: string;
+  messages: Message[];
+  startedAt: string;
+  lastMessageAt: string;
+  status: 'active' | 'closed';
+}
+
 interface AppContextType {
   user: User | null;
   setUser: (user: User | null) => void;
@@ -23,6 +54,10 @@ interface AppContextType {
   setSelectedAgent: (agent: AIAgent | null) => void;
   isSidebarCollapsed: boolean;
   setIsSidebarCollapsed: (collapsed: boolean) => void;
+  smeAgents: SMEAgent[];
+  addSMEAgent: (agent: SMEAgent) => void;
+  agentChats: AgentChat[];
+  addAgentChat: (chat: AgentChat) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -34,6 +69,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [currentConversation, setCurrentConversation] = useState<string | null>(null);
   const [selectedAgent, setSelectedAgent] = useState<AIAgent | null>(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
+  const [smeAgents, setSMEAgents] = useState<SMEAgent[]>([]);
+  const [agentChats, setAgentChats] = useState<AgentChat[]>([]);
 
   const addConversation = (conversation: Conversation) => {
     setConversations(prev => [conversation, ...prev]);
@@ -44,6 +81,14 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       ...prev,
       [conversationId]: [...(prev[conversationId] || []), message]
     }));
+  };
+
+  const addSMEAgent = (agent: SMEAgent) => {
+    setSMEAgents(prev => [...prev, agent]);
+  };
+
+  const addAgentChat = (chat: AgentChat) => {
+    setAgentChats(prev => [...prev, chat]);
   };
 
   return (
@@ -60,7 +105,11 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         selectedAgent,
         setSelectedAgent,
         isSidebarCollapsed,
-        setIsSidebarCollapsed
+        setIsSidebarCollapsed,
+        smeAgents,
+        addSMEAgent,
+        agentChats,
+        addAgentChat
       }}
     >
       {children}

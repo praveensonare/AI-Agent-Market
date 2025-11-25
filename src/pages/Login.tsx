@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaGoogle, FaEnvelope, FaLock, FaUserCircle } from 'react-icons/fa';
+import { FaGoogle, FaEnvelope, FaLock, FaUserCircle, FaRobot } from 'react-icons/fa';
 import { useApp } from '../context/AppContext';
 
 const Login: React.FC = () => {
@@ -52,21 +52,72 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 px-4 py-8">
-      <div className="absolute inset-0 bg-black opacity-10"></div>
-
-      <div className="relative w-full max-w-md">
-        {/* Logo and Title */}
-        <div className="text-center mb-8 animate-fade-in">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full shadow-lg mb-4">
-            <FaUserCircle className="text-5xl text-primary-600" />
-          </div>
-          <h1 className="text-4xl font-bold text-white mb-2">AI Agent Marketplace</h1>
-          <p className="text-primary-100 text-lg">Connect with AI Specialists</p>
+    <div className="min-h-screen flex">
+      {/* Left Side - Background Image and Branding */}
+      <div className="hidden lg:flex lg:flex-1 relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 overflow-hidden">
+        {/* Animated Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse-slow"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
         </div>
 
-        {/* Login Card */}
-        <div className="card p-8 animate-slide-up">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center mix-blend-overlay opacity-30"
+          style={{
+            backgroundImage: 'url(https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=800&fit=crop&q=80)',
+            backgroundPosition: 'center',
+          }}
+        ></div>
+
+        {/* Content */}
+        <div className="relative z-10 flex flex-col justify-center items-center w-full px-12 text-white">
+          <div className="max-w-lg animate-fade-in">
+            <div className="inline-flex items-center justify-center w-24 h-24 bg-white/20 backdrop-blur-sm rounded-3xl shadow-2xl mb-8">
+              <FaRobot className="text-6xl text-white" />
+            </div>
+            <h1 className="text-5xl font-bold mb-6 leading-tight">
+              Agentic AI Marketplace
+            </h1>
+            <p className="text-xl text-primary-100 mb-8 leading-relaxed">
+              Connect with specialized AI agents tailored to your needs. Experience the future of intelligent assistance.
+            </p>
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                <div className="text-3xl font-bold mb-1">1000+</div>
+                <div className="text-primary-100">AI Agents</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                <div className="text-3xl font-bold mb-1">50K+</div>
+                <div className="text-primary-100">Happy Users</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                <div className="text-3xl font-bold mb-1">24/7</div>
+                <div className="text-primary-100">Availability</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                <div className="text-3xl font-bold mb-1">4.9★</div>
+                <div className="text-primary-100">Avg Rating</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Side - Login Form */}
+      <div className="flex-1 flex items-center justify-center bg-gray-50 px-4 py-8 lg:px-8">
+        <div className="w-full max-w-md">
+          {/* Mobile Logo */}
+          <div className="text-center mb-8 lg:hidden animate-fade-in">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-primary-100 rounded-full shadow-lg mb-4">
+              <FaUserCircle className="text-5xl text-primary-600" />
+            </div>
+            <h1 className="text-3xl font-bold text-gray-800 mb-2">Agentic AI Marketplace</h1>
+            <p className="text-gray-600">Connect with AI Specialists</p>
+          </div>
+
+          {/* Login Card */}
+          <div className="card p-8 lg:p-10 animate-slide-in-right">
           <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Welcome Back</h2>
 
           {/* User Type Selection */}
@@ -188,12 +239,13 @@ const Login: React.FC = () => {
               Sign Up
             </button>
           </p>
-        </div>
+          </div>
 
-        {/* Footer */}
-        <p className="text-center mt-6 text-primary-100 text-sm">
-          © 2024 AI Agent Marketplace. All rights reserved.
-        </p>
+          {/* Footer */}
+          <p className="text-center mt-6 text-gray-500 text-sm">
+            © 2024 Agentic AI Marketplace. All rights reserved.
+          </p>
+        </div>
       </div>
     </div>
   );
