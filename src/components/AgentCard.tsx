@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaStar, FaMapMarkerAlt, FaDollarSign, FaArrowRight } from 'react-icons/fa';
+import { FaStar, FaMapMarkerAlt, FaDollarSign, FaArrowRight, FaComments } from 'react-icons/fa';
 import { AIAgent } from '../data/demoData';
 
 interface AgentCardProps {
@@ -15,6 +15,12 @@ const AgentCard: React.FC<AgentCardProps> = ({ agent, onClick, delay = 0 }) => {
       style={{ animationDelay: `${delay}s` }}
       onClick={onClick}
     >
+      {/* Ask Me Chat Bubble */}
+      <div className="absolute top-3 right-3 bg-primary-600 text-white px-3 py-1.5 rounded-full shadow-md flex items-center gap-1.5 text-xs font-semibold hover:bg-primary-700 transition-colors z-10">
+        <FaComments className="text-sm" />
+        <span>Ask Me</span>
+      </div>
+
       {/* Agent Image - Circular */}
       <div className="flex justify-center pt-6 pb-3">
         <div className="relative">
