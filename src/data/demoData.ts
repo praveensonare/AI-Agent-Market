@@ -41,7 +41,7 @@ export const aiAgents: AIAgent[] = [
     lastUpdated: '2024-11-20',
     rating: 4.9,
     requestsServed: 1250,
-    image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&h=600&fit=crop',
+    image: 'https://robohash.org/healthcare-ai-specialist?set=set1&size=400x400&bgset=bg1',
     description: 'Expert AI agent specialized in healthcare diagnostics, patient care optimization, and medical research analysis. With over 5 years of experience in the medical AI field, I provide accurate and reliable healthcare solutions.'
   },
   {
@@ -53,7 +53,7 @@ export const aiAgents: AIAgent[] = [
     lastUpdated: '2024-11-22',
     rating: 4.8,
     requestsServed: 2100,
-    image: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?w=800&h=600&fit=crop',
+    image: 'https://robohash.org/financial-analytics-ai?set=set1&size=400x400&bgset=bg2',
     description: 'Advanced financial AI agent specializing in market analysis, investment strategies, risk assessment, and portfolio optimization. Leveraging cutting-edge algorithms to provide data-driven financial insights.'
   },
   {
@@ -65,7 +65,7 @@ export const aiAgents: AIAgent[] = [
     lastUpdated: '2024-11-23',
     rating: 4.7,
     requestsServed: 890,
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=600&fit=crop',
+    image: 'https://robohash.org/legal-compliance-expert?set=set1&size=400x400&bgset=bg1',
     description: 'Specialized in legal document analysis, compliance checking, contract review, and regulatory guidance. Trained on international law databases to ensure comprehensive legal support.'
   },
   {
@@ -77,7 +77,7 @@ export const aiAgents: AIAgent[] = [
     lastUpdated: '2024-11-24',
     rating: 4.9,
     requestsServed: 3200,
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop',
+    image: 'https://robohash.org/software-development-ai?set=set1&size=400x400&bgset=bg2',
     description: 'Full-stack development AI assistant proficient in multiple programming languages, frameworks, and best practices. Specialized in code review, debugging, architecture design, and technical documentation.'
   },
   {
@@ -89,7 +89,7 @@ export const aiAgents: AIAgent[] = [
     lastUpdated: '2024-11-21',
     rating: 4.8,
     requestsServed: 1800,
-    image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&h=600&fit=crop',
+    image: 'https://robohash.org/data-science-ml-ai?set=set1&size=400x400&bgset=bg1',
     description: 'Expert in machine learning, deep learning, and statistical analysis. Specialized in building predictive models, data visualization, and extracting actionable insights from complex datasets.'
   },
   {
@@ -101,7 +101,7 @@ export const aiAgents: AIAgent[] = [
     lastUpdated: '2024-11-23',
     rating: 4.6,
     requestsServed: 950,
-    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=800&h=600&fit=crop',
+    image: 'https://robohash.org/marketing-brand-strategy?set=set1&size=400x400&bgset=bg2',
     description: 'Creative marketing AI specializing in brand strategy, content creation, social media optimization, and customer engagement analytics. Helping businesses grow their digital presence.'
   },
   {
@@ -113,7 +113,7 @@ export const aiAgents: AIAgent[] = [
     lastUpdated: '2024-11-24',
     rating: 4.9,
     requestsServed: 1400,
-    image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&h=600&fit=crop',
+    image: 'https://robohash.org/cybersecurity-expert?set=set1&size=400x400&bgset=bg1',
     description: 'Advanced cybersecurity AI agent specialized in threat detection, vulnerability assessment, security audits, and incident response. Protecting your digital assets with state-of-the-art security measures.'
   },
   {
@@ -125,7 +125,7 @@ export const aiAgents: AIAgent[] = [
     lastUpdated: '2024-11-22',
     rating: 4.7,
     requestsServed: 2500,
-    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=600&fit=crop',
+    image: 'https://robohash.org/education-training-ai?set=set1&size=400x400&bgset=bg2',
     description: 'Educational AI focused on personalized learning, curriculum development, tutoring, and skill assessment. Making learning engaging and effective for students of all ages.'
   },
   {
@@ -137,7 +137,7 @@ export const aiAgents: AIAgent[] = [
     lastUpdated: '2024-11-20',
     rating: 4.8,
     requestsServed: 1100,
-    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&h=600&fit=crop',
+    image: 'https://robohash.org/supply-chain-optimization?set=set1&size=400x400&bgset=bg1',
     description: 'Expert in supply chain management, logistics optimization, inventory control, and demand forecasting. Streamlining operations for maximum efficiency and cost reduction.'
   },
   {
@@ -149,7 +149,7 @@ export const aiAgents: AIAgent[] = [
     lastUpdated: '2024-11-23',
     rating: 4.6,
     requestsServed: 780,
-    image: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=800&h=600&fit=crop',
+    image: 'https://robohash.org/hr-recruitment-ai?set=set1&size=400x400&bgset=bg2',
     description: 'HR AI specialist focused on talent acquisition, candidate screening, employee engagement, and workforce analytics. Helping organizations build stronger teams.'
   },
   {
@@ -161,7 +161,7 @@ export const aiAgents: AIAgent[] = [
     lastUpdated: '2024-11-21',
     rating: 4.7,
     requestsServed: 620,
-    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=600&fit=crop',
+    image: 'https://robohash.org/real-estate-analytics?set=set1&size=400x400&bgset=bg1',
     description: 'Real estate AI providing market analysis, property valuation, investment opportunities, and trend forecasting. Making informed real estate decisions easier.'
   },
   {
@@ -173,7 +173,7 @@ export const aiAgents: AIAgent[] = [
     lastUpdated: '2024-11-24',
     rating: 4.9,
     requestsServed: 4200,
-    image: 'https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=800&h=600&fit=crop',
+    image: 'https://robohash.org/customer-service-ai?set=set1&size=400x400&bgset=bg2',
     description: 'Customer service excellence AI specialized in support automation, sentiment analysis, ticket management, and customer satisfaction optimization. Available 24/7 for your support needs.'
   }
 ];
