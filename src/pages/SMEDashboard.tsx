@@ -1,0 +1,356 @@
+import React, { useState } from 'react';
+import { FaChartLine, FaRobot, FaComments, FaStar, FaChevronDown } from 'react-icons/fa';
+import { useApp } from '../context/AppContext';
+import CreateAgent from '../components/CreateAgent';
+import SMESidebar from '../components/SMESidebar';
+
+const SMEDashboard: React.FC = () => {
+  const { user, smeAgents, agentChats, isSidebarCollapsed } = useApp();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [selectedView, setSelectedView] = useState<'dashboard' | 'myAgents' | 'analytics'>('dashboard');
+  const [selectedAgentForChats, setSelectedAgentForChats] = useState<string | null>(null);
+
+  // Check if user has any agents
+  const hasAgents = smeAgents.length > 0;
+
+  // Calculate overall analytics
+  const totalAgents = smeAgents.length;
+  const activeAgents = smeAgents.filter(agent => agent.activeChats > 0).length;
+  const totalChats = smeAgents.reduce((sum, agent) => sum + agent.totalChats, 0);
+  const avgEngagement = totalAgents > 0
+    ? (smeAgents.reduce((sum, agent) => sum + agent.engagementScore, 0) / totalAgents).toFixed(1)
+    : '0.0';
+  const avgRating = totalAgents > 0
+    ? (smeAgents.reduce((sum, agent) => sum + agent.rating, 0) / totalAgents).toFixed(1)
+    : '0.0';
+  const totalRevenue = smeAgents.reduce((sum, agent) => sum + agent.totalRevenue, 0);
+
+  const getAgentChats = (agentId: string) => {
+    return agentChats.filter(chat => chat.agentId === agentId);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Sidebar */}
+      <SMESidebar
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
+        selectedView={selectedView}
+        setSelectedView={setSelectedView}
+      />
+
+      {/* Main Content */}
+      <div className={`transition-all duration-300 ${isSidebarOpen ? 'md:ml-80' : 'ml-0'} ${!isSidebarOpen && isSidebarCollapsed ? 'md:ml-20' : ''} ${!isSidebarOpen && !isSidebarCollapsed ? 'md:ml-80' : ''}`}>
+        {/* Top Navigation Bar */}
+        <div className="bg-white shadow-md sticky top-0 z-40">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  <FaRobot className="text-2xl text-primary-600" />
+                </button>
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-800">SME Dashboard</h1>
+              </div>
+
+              <div className="text-right">
+                <p className="text-sm text-gray-600">Welcome,</p>
+                <p className="font-semibold text-gray-800">{user?.name}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Dashboard Content */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {!hasAgents ? (
+            /* Show Create Agent prompt when no agents exist */
+            <div className="flex items-center justify-center min-h-[60vh]">
+              <CreateAgent />
+            </div>
+          ) : (
+            /* Show Dashboard when agents exist */
+            <>
+              {selectedView === 'dashboard' && (
+                <>
+                  {/* Analytics Overview */}
+                  <div className="mb-8">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6">Analytics Overview</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+                      <div className="card p-6">
+                        <div className="flex items-center justify-between mb-2">
+                          <p className="text-sm text-gray-600">Total Agents</p>
+                          <FaRobot className="text-2xl text-primary-600" />
+                        </div>
+                        <p className="text-3xl font-bold text-gray-800">{totalAgents}</p>
+                      </div>
+
+                      <div className="card p-6">
+                        <div className="flex items-center justify-between mb-2">
+                          <p className="text-sm text-gray-600">Active Agents</p>
+                          <FaChartLine className="text-2xl text-green-600" />
+                        </div>
+                        <p className="text-3xl font-bold text-gray-800">{activeAgents}</p>
+                      </div>
+
+                      <div className="card p-6">
+                        <div className="flex items-center justify-between mb-2">
+                          <p className="text-sm text-gray-600">Total Chats</p>
+                          <FaComments className="text-2xl text-blue-600" />
+                        </div>
+                        <p className="text-3xl font-bold text-gray-800">{totalChats}</p>
+                      </div>
+
+                      <div className="card p-6">
+                        <div className="flex items-center justify-between mb-2">
+                          <p className="text-sm text-gray-600">Engagement</p>
+                          <FaChartLine className="text-2xl text-purple-600" />
+                        </div>
+                        <p className="text-3xl font-bold text-gray-800">{avgEngagement}%</p>
+                      </div>
+
+                      <div className="card p-6">
+                        <div className="flex items-center justify-between mb-2">
+                          <p className="text-sm text-gray-600">Avg Rating</p>
+                          <FaStar className="text-2xl text-yellow-500" />
+                        </div>
+                        <p className="text-3xl font-bold text-gray-800">{avgRating}</p>
+                      </div>
+
+                      <div className="card p-6">
+                        <div className="flex items-center justify-between mb-2">
+                          <p className="text-sm text-gray-600">Revenue</p>
+                          <span className="text-2xl">💰</span>
+                        </div>
+                        <p className="text-3xl font-bold text-gray-800">${totalRevenue}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Individual Agent Statistics */}
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6">Agent Performance</h2>
+                    <div className="space-y-4">
+                      {smeAgents.map(agent => {
+                        const chats = getAgentChats(agent.id);
+                        return (
+                          <div key={agent.id} className="card p-6">
+                            <div className="flex items-start gap-4">
+                              <img
+                                src={agent.image}
+                                alt={agent.name}
+                                className="w-16 h-16 rounded-full object-cover"
+                              />
+                              <div className="flex-1">
+                                <div className="flex items-start justify-between mb-2">
+                                  <div>
+                                    <h3 className="text-xl font-bold text-gray-800">{agent.name}</h3>
+                                    <p className="text-sm text-gray-600">{agent.speciality}</p>
+                                  </div>
+                                  <button
+                                    onClick={() => setSelectedAgentForChats(
+                                      selectedAgentForChats === agent.id ? null : agent.id
+                                    )}
+                                    className="btn-secondary text-sm"
+                                  >
+                                    <FaComments className="mr-2" />
+                                    View Chats
+                                    <FaChevronDown className={`ml-2 transition-transform ${selectedAgentForChats === agent.id ? 'rotate-180' : ''}`} />
+                                  </button>
+                                </div>
+
+                                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-4">
+                                  <div>
+                                    <p className="text-xs text-gray-600">Total Chats</p>
+                                    <p className="text-lg font-bold text-gray-800">{agent.totalChats}</p>
+                                  </div>
+                                  <div>
+                                    <p className="text-xs text-gray-600">Active Chats</p>
+                                    <p className="text-lg font-bold text-gray-800">{agent.activeChats}</p>
+                                  </div>
+                                  <div>
+                                    <p className="text-xs text-gray-600">Engagement</p>
+                                    <p className="text-lg font-bold text-gray-800">{agent.engagementScore}%</p>
+                                  </div>
+                                  <div>
+                                    <p className="text-xs text-gray-600">Rating</p>
+                                    <p className="text-lg font-bold text-gray-800 flex items-center">
+                                      {agent.rating} <FaStar className="text-yellow-500 ml-1 text-sm" />
+                                    </p>
+                                  </div>
+                                  <div>
+                                    <p className="text-xs text-gray-600">Rate</p>
+                                    <p className="text-lg font-bold text-gray-800">{agent.rate} {agent.rateCurrency}/hr</p>
+                                  </div>
+                                  <div>
+                                    <p className="text-xs text-gray-600">Revenue</p>
+                                    <p className="text-lg font-bold text-gray-800">${agent.totalRevenue}</p>
+                                  </div>
+                                </div>
+
+                                {/* Chat List */}
+                                {selectedAgentForChats === agent.id && (
+                                  <div className="mt-4 border-t pt-4">
+                                    <h4 className="font-semibold text-gray-800 mb-3">Recent Conversations</h4>
+                                    {chats.length === 0 ? (
+                                      <p className="text-gray-600 text-sm">No conversations yet</p>
+                                    ) : (
+                                      <div className="space-y-2">
+                                        {chats.map(chat => (
+                                          <div key={chat.id} className="bg-gray-50 p-3 rounded-lg">
+                                            <div className="flex items-start justify-between">
+                                              <div>
+                                                <p className="font-semibold text-gray-800">{chat.userName}</p>
+                                                <p className="text-sm text-gray-600">
+                                                  {chat.messages.length} messages
+                                                </p>
+                                                <p className="text-xs text-gray-500">
+                                                  Started: {new Date(chat.startedAt).toLocaleDateString()} at{' '}
+                                                  {new Date(chat.startedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                </p>
+                                              </div>
+                                              <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                                                chat.status === 'active'
+                                                  ? 'bg-green-100 text-green-800'
+                                                  : 'bg-gray-100 text-gray-800'
+                                              }`}>
+                                                {chat.status}
+                                              </span>
+                                            </div>
+                                            {chat.messages.length > 0 && (
+                                              <div className="mt-2 p-2 bg-white rounded border-l-4 border-primary-500">
+                                                <p className="text-sm text-gray-700 line-clamp-2">
+                                                  {chat.messages[chat.messages.length - 1].content}
+                                                </p>
+                                              </div>
+                                            )}
+                                          </div>
+                                        ))}
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {selectedView === 'myAgents' && (
+                <div>
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-2xl font-bold text-gray-800">My Agents</h2>
+                    <button
+                      onClick={() => {
+                        // Could open create agent flow in modal
+                        alert('Create new agent feature - opens CreateAgent component');
+                      }}
+                      className="btn-primary"
+                    >
+                      <FaRobot className="mr-2" />
+                      Create New Agent
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {smeAgents.map(agent => (
+                      <div key={agent.id} className="card p-6">
+                        <img
+                          src={agent.image}
+                          alt={agent.name}
+                          className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+                        />
+                        <h3 className="text-xl font-bold text-gray-800 text-center mb-2">
+                          {agent.name}
+                        </h3>
+                        <p className="text-gray-600 text-center mb-4">{agent.speciality}</p>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">Location:</span>
+                            <span className="font-semibold">{agent.location}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">Rate:</span>
+                            <span className="font-semibold">{agent.rate} {agent.rateCurrency}/hr</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">Rating:</span>
+                            <span className="font-semibold flex items-center">
+                              {agent.rating} <FaStar className="text-yellow-500 ml-1" />
+                            </span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">Total Chats:</span>
+                            <span className="font-semibold">{agent.totalChats}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {selectedView === 'analytics' && (
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-800 mb-6">Detailed Analytics</h2>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="card p-6">
+                      <h3 className="text-xl font-bold text-gray-800 mb-4">Performance Metrics</h3>
+                      <div className="space-y-4">
+                        <div>
+                          <div className="flex justify-between mb-2">
+                            <span className="text-gray-600">Average Engagement</span>
+                            <span className="font-bold">{avgEngagement}%</span>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-2">
+                            <div
+                              className="bg-primary-600 h-2 rounded-full"
+                              style={{ width: `${avgEngagement}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                        <div>
+                          <div className="flex justify-between mb-2">
+                            <span className="text-gray-600">Average Rating</span>
+                            <span className="font-bold">{avgRating} / 5.0</span>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-2">
+                            <div
+                              className="bg-yellow-500 h-2 rounded-full"
+                              style={{ width: `${(parseFloat(avgRating) / 5) * 100}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="card p-6">
+                      <h3 className="text-xl font-bold text-gray-800 mb-4">Revenue Summary</h3>
+                      <div className="space-y-3">
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Total Revenue:</span>
+                          <span className="text-2xl font-bold text-green-600">${totalRevenue}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Active Agents:</span>
+                          <span className="font-semibold">{activeAgents} / {totalAgents}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SMEDashboard;
