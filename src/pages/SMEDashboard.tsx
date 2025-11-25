@@ -48,7 +48,7 @@ const SMEDashboard: React.FC = () => {
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                  className="p-3 rounded-full hover:bg-primary-50 transition-all duration-300 transform hover:scale-110 active:scale-95"
                 >
                   <FaRobot className="text-2xl text-primary-600" />
                 </button>
@@ -79,7 +79,7 @@ const SMEDashboard: React.FC = () => {
                   <div className="mb-8">
                     <h2 className="text-2xl font-bold text-gray-800 mb-6">Analytics Overview</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-                      <div className="card p-6">
+                      <div className="card p-6 transform hover:scale-105 transition-all duration-300">
                         <div className="flex items-center justify-between mb-2">
                           <p className="text-sm text-gray-600">Total Agents</p>
                           <FaRobot className="text-2xl text-primary-600" />
@@ -87,44 +87,59 @@ const SMEDashboard: React.FC = () => {
                         <p className="text-3xl font-bold text-gray-800">{totalAgents}</p>
                       </div>
 
-                      <div className="card p-6">
+                      <div className="card p-6 transform hover:scale-105 transition-all duration-300">
                         <div className="flex items-center justify-between mb-2">
                           <p className="text-sm text-gray-600">Active Agents</p>
                           <FaChartLine className="text-2xl text-green-600" />
                         </div>
                         <p className="text-3xl font-bold text-gray-800">{activeAgents}</p>
+                        {activeAgents === 0 && (
+                          <p className="text-xs text-gray-500 mt-1">No active conversations</p>
+                        )}
                       </div>
 
-                      <div className="card p-6">
+                      <div className="card p-6 transform hover:scale-105 transition-all duration-300">
                         <div className="flex items-center justify-between mb-2">
                           <p className="text-sm text-gray-600">Total Chats</p>
                           <FaComments className="text-2xl text-blue-600" />
                         </div>
                         <p className="text-3xl font-bold text-gray-800">{totalChats}</p>
+                        {totalChats === 0 && (
+                          <p className="text-xs text-gray-500 mt-1">Waiting for first chat</p>
+                        )}
                       </div>
 
-                      <div className="card p-6">
+                      <div className="card p-6 transform hover:scale-105 transition-all duration-300">
                         <div className="flex items-center justify-between mb-2">
                           <p className="text-sm text-gray-600">Engagement</p>
                           <FaChartLine className="text-2xl text-purple-600" />
                         </div>
                         <p className="text-3xl font-bold text-gray-800">{avgEngagement}%</p>
+                        {parseFloat(avgEngagement) === 0 && (
+                          <p className="text-xs text-gray-500 mt-1">No data yet</p>
+                        )}
                       </div>
 
-                      <div className="card p-6">
+                      <div className="card p-6 transform hover:scale-105 transition-all duration-300">
                         <div className="flex items-center justify-between mb-2">
                           <p className="text-sm text-gray-600">Avg Rating</p>
                           <FaStar className="text-2xl text-yellow-500" />
                         </div>
                         <p className="text-3xl font-bold text-gray-800">{avgRating}</p>
+                        {parseFloat(avgRating) === 0 && (
+                          <p className="text-xs text-gray-500 mt-1">No ratings yet</p>
+                        )}
                       </div>
 
-                      <div className="card p-6">
+                      <div className="card p-6 transform hover:scale-105 transition-all duration-300">
                         <div className="flex items-center justify-between mb-2">
                           <p className="text-sm text-gray-600">Revenue</p>
                           <span className="text-2xl">💰</span>
                         </div>
                         <p className="text-3xl font-bold text-gray-800">${totalRevenue}</p>
+                        {totalRevenue === 0 && (
+                          <p className="text-xs text-gray-500 mt-1">Start earning!</p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -132,7 +147,18 @@ const SMEDashboard: React.FC = () => {
                   {/* Individual Agent Statistics */}
                   <div>
                     <h2 className="text-2xl font-bold text-gray-800 mb-6">Agent Performance</h2>
-                    <div className="space-y-4">
+                    {totalChats === 0 ? (
+                      <div className="card p-10 text-center">
+                        <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-100 rounded-full mb-4">
+                          <FaComments className="text-4xl text-blue-600" />
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-800 mb-2">No Activity Yet</h3>
+                        <p className="text-gray-600">
+                          Your agents are ready and waiting for their first conversations. Share your agent profiles to start engaging with users!
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="space-y-4">
                       {smeAgents.map(agent => {
                         const chats = getAgentChats(agent.id);
                         return (
@@ -153,11 +179,11 @@ const SMEDashboard: React.FC = () => {
                                     onClick={() => setSelectedAgentForChats(
                                       selectedAgentForChats === agent.id ? null : agent.id
                                     )}
-                                    className="btn-secondary text-sm"
+                                    className="btn-secondary text-sm flex items-center justify-center"
                                   >
                                     <FaComments className="mr-2" />
                                     View Chats
-                                    <FaChevronDown className={`ml-2 transition-transform ${selectedAgentForChats === agent.id ? 'rotate-180' : ''}`} />
+                                    <FaChevronDown className={`ml-2 transition-transform duration-300 ${selectedAgentForChats === agent.id ? 'rotate-180' : ''}`} />
                                   </button>
                                 </div>
 
@@ -237,21 +263,22 @@ const SMEDashboard: React.FC = () => {
                           </div>
                         );
                       })}
-                    </div>
+                      </div>
+                    )}
                   </div>
                 </>
               )}
 
               {selectedView === 'myAgents' && (
                 <div>
-                  <div className="flex items-center justify-between mb-6">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                     <h2 className="text-2xl font-bold text-gray-800">My Agents</h2>
                     <button
                       onClick={() => {
                         // Could open create agent flow in modal
                         alert('Create new agent feature - opens CreateAgent component');
                       }}
-                      className="btn-primary"
+                      className="btn-primary flex items-center justify-center whitespace-nowrap"
                     >
                       <FaRobot className="mr-2" />
                       Create New Agent
@@ -298,51 +325,75 @@ const SMEDashboard: React.FC = () => {
               {selectedView === 'analytics' && (
                 <div>
                   <h2 className="text-2xl font-bold text-gray-800 mb-6">Detailed Analytics</h2>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="card p-6">
-                      <h3 className="text-xl font-bold text-gray-800 mb-4">Performance Metrics</h3>
-                      <div className="space-y-4">
-                        <div>
-                          <div className="flex justify-between mb-2">
-                            <span className="text-gray-600">Average Engagement</span>
-                            <span className="font-bold">{avgEngagement}%</span>
+                  {totalChats === 0 ? (
+                    <div className="card p-12 text-center">
+                      <div className="inline-flex items-center justify-center w-24 h-24 bg-primary-100 rounded-full mb-6">
+                        <FaChartLine className="text-5xl text-primary-600" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-gray-800 mb-4">No Analytics Data Yet</h3>
+                      <p className="text-gray-600 text-lg mb-2">
+                        Your analytics dashboard is waiting for activity!
+                      </p>
+                      <p className="text-gray-500 max-w-md mx-auto">
+                        Once users start interacting with your agents, you'll see detailed metrics on engagement, ratings, revenue, and performance here.
+                      </p>
+                      <div className="mt-8 p-6 bg-blue-50 rounded-xl max-w-lg mx-auto">
+                        <h4 className="font-bold text-gray-800 mb-2">💡 Quick Tips:</h4>
+                        <ul className="text-left text-sm text-gray-700 space-y-1">
+                          <li>✓ Share your agent profiles to attract users</li>
+                          <li>✓ Keep your agent's knowledge base updated</li>
+                          <li>✓ Respond promptly to maintain high engagement</li>
+                          <li>✓ Monitor your agent performance regularly</li>
+                        </ul>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      <div className="card p-6">
+                        <h3 className="text-xl font-bold text-gray-800 mb-4">Performance Metrics</h3>
+                        <div className="space-y-4">
+                          <div>
+                            <div className="flex justify-between mb-2">
+                              <span className="text-gray-600">Average Engagement</span>
+                              <span className="font-bold">{avgEngagement}%</span>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-2">
+                              <div
+                                className="bg-primary-600 h-2 rounded-full transition-all duration-500"
+                                style={{ width: `${avgEngagement}%` }}
+                              ></div>
+                            </div>
                           </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div
-                              className="bg-primary-600 h-2 rounded-full"
-                              style={{ width: `${avgEngagement}%` }}
-                            ></div>
-                          </div>
-                        </div>
-                        <div>
-                          <div className="flex justify-between mb-2">
-                            <span className="text-gray-600">Average Rating</span>
-                            <span className="font-bold">{avgRating} / 5.0</span>
-                          </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div
-                              className="bg-yellow-500 h-2 rounded-full"
-                              style={{ width: `${(parseFloat(avgRating) / 5) * 100}%` }}
-                            ></div>
+                          <div>
+                            <div className="flex justify-between mb-2">
+                              <span className="text-gray-600">Average Rating</span>
+                              <span className="font-bold">{avgRating} / 5.0</span>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-2">
+                              <div
+                                className="bg-yellow-500 h-2 rounded-full transition-all duration-500"
+                                style={{ width: `${(parseFloat(avgRating) / 5) * 100}%` }}
+                              ></div>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="card p-6">
-                      <h3 className="text-xl font-bold text-gray-800 mb-4">Revenue Summary</h3>
-                      <div className="space-y-3">
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Total Revenue:</span>
-                          <span className="text-2xl font-bold text-green-600">${totalRevenue}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Active Agents:</span>
-                          <span className="font-semibold">{activeAgents} / {totalAgents}</span>
+                      <div className="card p-6">
+                        <h3 className="text-xl font-bold text-gray-800 mb-4">Revenue Summary</h3>
+                        <div className="space-y-3">
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">Total Revenue:</span>
+                            <span className="text-2xl font-bold text-green-600">${totalRevenue}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">Active Agents:</span>
+                            <span className="font-semibold">{activeAgents} / {totalAgents}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               )}
             </>
