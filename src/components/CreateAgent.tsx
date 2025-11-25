@@ -230,6 +230,14 @@ const CreateAgent: React.FC = () => {
               )}
             </div>
 
+            {!isStep1Valid() && (
+              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                <p className="text-sm text-yellow-800">
+                  <strong>Please complete all required fields (*) to continue</strong>
+                </p>
+              </div>
+            )}
+
             <div className="flex gap-4">
               <button
                 onClick={handleCancel}
@@ -242,6 +250,7 @@ const CreateAgent: React.FC = () => {
                 onClick={handleNext}
                 disabled={!isStep1Valid()}
                 className="btn-primary flex-1 flex items-center justify-center"
+                title={!isStep1Valid() ? "Please complete all required fields" : "Proceed to next step"}
               >
                 Next
                 <FaArrowRight className="ml-2" />
@@ -355,6 +364,14 @@ const CreateAgent: React.FC = () => {
               </div>
             </div>
 
+            {!isStep2Valid() && (
+              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                <p className="text-sm text-yellow-800">
+                  <strong>Please complete all required fields (*) to finish</strong>
+                </p>
+              </div>
+            )}
+
             <div className="flex gap-4">
               <button
                 onClick={handleCancel}
@@ -374,6 +391,7 @@ const CreateAgent: React.FC = () => {
                 onClick={handleFinish}
                 disabled={!isStep2Valid()}
                 className="btn-primary flex-1 flex items-center justify-center"
+                title={!isStep2Valid() ? "Please complete all required fields" : "Create your agent"}
               >
                 <FaCheckCircle className="mr-2" />
                 Finish
