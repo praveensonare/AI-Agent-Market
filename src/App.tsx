@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ForgotPassword from './pages/ForgotPassword';
 import Dashboard from './pages/Dashboard';
+import SMEDashboard from './pages/SMEDashboard';
 import ChatInterface from './pages/ChatInterface';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -15,6 +16,17 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
 const PublicRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user } = useApp();
   return !user ? <>{children}</> : <Navigate to="/dashboard" replace />;
+};
+
+const DashboardRoute: React.FC = () => {
+  const { user } = useApp();
+
+  if (!user) {
+    return <Navigate to="/" replace />;
+  }
+
+  // Route to appropriate dashboard based on user type
+  return user.type === 'sme' ? <SMEDashboard /> : <Dashboard />;
 };
 
 const AppRoutes: React.FC = () => {
@@ -46,11 +58,7 @@ const AppRoutes: React.FC = () => {
       />
       <Route
         path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        }
+        element={<DashboardRoute />}
       />
       <Route
         path="/chat"
