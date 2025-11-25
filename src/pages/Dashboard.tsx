@@ -57,13 +57,13 @@ const Dashboard: React.FC = () => {
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                  className="p-3 rounded-full hover:bg-primary-50 transition-all duration-300 transform hover:scale-110 active:scale-95"
                 >
                   <FaComments className="text-2xl text-primary-600" />
                 </button>
-                <button className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                <button className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-full hover:from-primary-700 hover:to-primary-800 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 active:scale-95">
                   <FaHome className="text-lg" />
-                  <span className="hidden sm:inline font-semibold">Home</span>
+                  <span className="hidden sm:inline font-bold">Home</span>
                 </button>
               </div>
 
@@ -83,14 +83,22 @@ const Dashboard: React.FC = () => {
             {/* Search Bar */}
             <div className="mb-6">
               <div className="relative">
-                <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
+                <FaSearch className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
                 <input
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search by name or specialization..."
-                  className="w-full pl-12 pr-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary-500 transition-colors"
+                  className="w-full pl-14 pr-5 py-4 border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 shadow-sm hover:shadow-md text-lg"
                 />
+                {searchTerm && (
+                  <button
+                    onClick={() => setSearchTerm('')}
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 p-2 rounded-full hover:bg-gray-100 transition-all"
+                  >
+                    <FaTimes className="text-gray-400 hover:text-gray-600" />
+                  </button>
+                )}
               </div>
             </div>
 

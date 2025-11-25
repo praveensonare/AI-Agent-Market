@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaRobot, FaArrowRight, FaArrowLeft, FaUpload, FaCheckCircle } from 'react-icons/fa';
+import { FaRobot, FaArrowRight, FaArrowLeft, FaUpload, FaCheckCircle, FaTimes } from 'react-icons/fa';
 import { useApp, SMEAgent } from '../context/AppContext';
 
 const CreateAgent: React.FC = () => {
@@ -98,6 +98,26 @@ const CreateAgent: React.FC = () => {
 
       addSMEAgent(newAgent);
       alert('Agent created successfully!');
+    }
+  };
+
+  const handleCancel = () => {
+    if (confirm('Are you sure you want to cancel? All progress will be lost.')) {
+      // Reset form
+      setFormData({
+        name: '',
+        speciality: '',
+        location: '',
+        currency: 'USD',
+        image: '',
+        professionalDetails: '',
+        professionalDetailsFile: null,
+        knowledgeBase: '',
+        knowledgeBaseFiles: [],
+        rate: '',
+        rateCurrency: 'USD'
+      });
+      setStep(1);
     }
   };
 
@@ -210,14 +230,23 @@ const CreateAgent: React.FC = () => {
               )}
             </div>
 
-            <button
-              onClick={handleNext}
-              disabled={!isStep1Valid()}
-              className="btn-primary w-full"
-            >
-              Next
-              <FaArrowRight className="ml-2" />
-            </button>
+            <div className="flex gap-4">
+              <button
+                onClick={handleCancel}
+                className="btn-cancel flex-1 flex items-center justify-center"
+              >
+                <FaTimes className="mr-2" />
+                Cancel
+              </button>
+              <button
+                onClick={handleNext}
+                disabled={!isStep1Valid()}
+                className="btn-primary flex-1 flex items-center justify-center"
+              >
+                Next
+                <FaArrowRight className="ml-2" />
+              </button>
+            </div>
           </div>
         )}
 
@@ -232,7 +261,7 @@ const CreateAgent: React.FC = () => {
               <textarea
                 value={formData.professionalDetails}
                 onChange={(e) => handleInputChange('professionalDetails', e.target.value)}
-                className="input-field min-h-[100px]"
+                className="w-full px-5 py-3 border-2 border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 shadow-sm hover:shadow-md min-h-[100px] resize-none"
                 placeholder="Describe your role, expertise, and approach..."
                 required
               ></textarea>
@@ -262,7 +291,7 @@ const CreateAgent: React.FC = () => {
               <textarea
                 value={formData.knowledgeBase}
                 onChange={(e) => handleInputChange('knowledgeBase', e.target.value)}
-                className="input-field min-h-[150px]"
+                className="w-full px-5 py-3 border-2 border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 shadow-sm hover:shadow-md min-h-[150px] resize-none"
                 placeholder="Enter your knowledge base content here, or upload files below..."
                 required
               ></textarea>
@@ -328,8 +357,15 @@ const CreateAgent: React.FC = () => {
 
             <div className="flex gap-4">
               <button
+                onClick={handleCancel}
+                className="btn-cancel flex-1 flex items-center justify-center"
+              >
+                <FaTimes className="mr-2" />
+                Cancel
+              </button>
+              <button
                 onClick={handleBack}
-                className="btn-secondary flex-1"
+                className="btn-secondary flex-1 flex items-center justify-center"
               >
                 <FaArrowLeft className="mr-2" />
                 Back
@@ -337,7 +373,7 @@ const CreateAgent: React.FC = () => {
               <button
                 onClick={handleFinish}
                 disabled={!isStep2Valid()}
-                className="btn-primary flex-1"
+                className="btn-primary flex-1 flex items-center justify-center"
               >
                 <FaCheckCircle className="mr-2" />
                 Finish
