@@ -19,7 +19,7 @@ import Sidebar from '../components/Sidebar';
 
 const ChatInterface: React.FC = () => {
   const navigate = useNavigate();
-  const { currentConversation, conversations, messages, addMessage, user } = useApp();
+  const { currentConversation, conversations, messages, addMessage, user, isSidebarCollapsed } = useApp();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [messageText, setMessageText] = useState('');
   const [attachedFiles, setAttachedFiles] = useState<File[]>([]);
@@ -142,7 +142,7 @@ const ChatInterface: React.FC = () => {
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
       {/* Top Navigation */}
-      <div className={`bg-white shadow-md sticky top-0 z-40 transition-all duration-300 ${isSidebarOpen ? 'md:ml-80' : 'ml-0'}`}>
+      <div className={`bg-white shadow-md sticky top-0 z-40 transition-all duration-300 ${isSidebarOpen ? 'md:ml-80' : 'ml-0'} ${!isSidebarOpen && isSidebarCollapsed ? 'md:ml-20' : ''} ${!isSidebarOpen && !isSidebarCollapsed ? 'md:ml-80' : ''}`}>
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-4">
@@ -181,7 +181,7 @@ const ChatInterface: React.FC = () => {
       </div>
 
       {/* Chat Area */}
-      <div className={`flex-1 transition-all duration-300 ${isSidebarOpen ? 'md:ml-80' : 'ml-0'}`}>
+      <div className={`flex-1 transition-all duration-300 ${isSidebarOpen ? 'md:ml-80' : 'ml-0'} ${!isSidebarOpen && isSidebarCollapsed ? 'md:ml-20' : ''} ${!isSidebarOpen && !isSidebarCollapsed ? 'md:ml-80' : ''}`}>
         <div className="max-w-4xl mx-auto h-full flex flex-col">
           {/* Agent Description (shown at start) */}
           {conversationMessages.length === 0 && (

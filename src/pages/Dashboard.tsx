@@ -7,7 +7,7 @@ import Sidebar from '../components/Sidebar';
 import AgentPopup from '../components/AgentPopup';
 
 const Dashboard: React.FC = () => {
-  const { user, selectedAgent, setSelectedAgent } = useApp();
+  const { user, selectedAgent, setSelectedAgent, isSidebarCollapsed } = useApp();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState({
@@ -49,7 +49,7 @@ const Dashboard: React.FC = () => {
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
       {/* Main Content */}
-      <div className={`transition-all duration-300 ${isSidebarOpen ? 'md:ml-80' : 'ml-0'}`}>
+      <div className={`transition-all duration-300 ${isSidebarOpen ? 'md:ml-80' : 'ml-0'} ${!isSidebarOpen && isSidebarCollapsed ? 'md:ml-20' : ''} ${!isSidebarOpen && !isSidebarCollapsed ? 'md:ml-80' : ''}`}>
         {/* Top Navigation Bar */}
         <div className="bg-white shadow-md sticky top-0 z-40">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
