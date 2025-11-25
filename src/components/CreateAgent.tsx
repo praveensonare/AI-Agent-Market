@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaRobot, FaArrowRight, FaArrowLeft, FaUpload, FaCheckCircle, FaTimes } from 'react-icons/fa';
+import { FaRobot, FaUpload, FaCheckCircle } from 'react-icons/fa';
 import { useApp, SMEAgent } from '../context/AppContext';
 
 const CreateAgent: React.FC = () => {
@@ -238,22 +238,21 @@ const CreateAgent: React.FC = () => {
               </div>
             )}
 
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-center">
               <button
                 onClick={handleCancel}
-                className="btn-cancel flex-1 flex items-center justify-center"
+                className="w-12 h-12 rounded-full bg-gradient-to-r from-red-500 to-red-600 text-white hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg hover:shadow-2xl flex items-center justify-center text-xl"
+                title="Cancel"
               >
-                <FaTimes className="mr-2" />
-                Cancel
+                ×
               </button>
               <button
                 onClick={handleNext}
                 disabled={!isStep1Valid()}
-                className="btn-primary flex-1 flex items-center justify-center"
-                title={!isStep1Valid() ? "Please complete all required fields" : "Proceed to next step"}
+                className="w-12 h-12 rounded-full bg-gradient-to-r from-primary-600 to-primary-700 text-white hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center text-xl"
+                title={!isStep1Valid() ? "Please complete all required fields" : "Next step"}
               >
-                Next
-                <FaArrowRight className="ml-2" />
+                →
               </button>
             </div>
           </div>
@@ -372,29 +371,28 @@ const CreateAgent: React.FC = () => {
               </div>
             )}
 
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-center">
               <button
                 onClick={handleCancel}
-                className="btn-cancel flex-1 flex items-center justify-center"
+                className="w-12 h-12 rounded-full bg-gradient-to-r from-red-500 to-red-600 text-white hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg hover:shadow-2xl flex items-center justify-center text-xl"
+                title="Cancel"
               >
-                <FaTimes className="mr-2" />
-                Cancel
+                ×
               </button>
               <button
                 onClick={handleBack}
-                className="btn-secondary flex-1 flex items-center justify-center"
+                className="w-12 h-12 rounded-full bg-white text-primary-600 border-2 border-primary-600 hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg hover:shadow-2xl flex items-center justify-center text-xl"
+                title="Back to previous step"
               >
-                <FaArrowLeft className="mr-2" />
-                Back
+                ←
               </button>
               <button
                 onClick={handleFinish}
                 disabled={!isStep2Valid()}
-                className="btn-primary flex-1 flex items-center justify-center"
-                title={!isStep2Valid() ? "Please complete all required fields" : "Create your agent"}
+                className="w-12 h-12 rounded-full bg-gradient-to-r from-primary-600 to-primary-700 text-white hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center text-xl"
+                title={!isStep2Valid() ? "Please complete all required fields" : "Finish and create agent"}
               >
-                <FaCheckCircle className="mr-2" />
-                Finish
+                ✓
               </button>
             </div>
           </div>
