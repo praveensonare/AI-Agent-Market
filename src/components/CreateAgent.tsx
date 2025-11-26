@@ -84,6 +84,7 @@ const CreateAgent: React.FC = () => {
         currency: formData.currency,
         image: formData.image || 'https://robohash.org/default-agent?set=set1&size=400x400&bgset=bg1',
         professionalDetails: formData.professionalDetails,
+        prompts: '',
         knowledgeBase: formData.knowledgeBase,
         knowledgeBaseFiles: formData.knowledgeBaseFiles.map(f => f.name),
         rate: parseFloat(formData.rate),

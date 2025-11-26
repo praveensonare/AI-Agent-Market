@@ -18,6 +18,7 @@ export interface SMEAgent {
   currency: string;
   image: string;
   professionalDetails: string;
+  prompts: string;
   knowledgeBase: string;
   knowledgeBaseFiles?: string[];
   rate: number;
@@ -56,6 +57,7 @@ interface AppContextType {
   setIsSidebarCollapsed: (collapsed: boolean) => void;
   smeAgents: SMEAgent[];
   addSMEAgent: (agent: SMEAgent) => void;
+  updateSMEAgent: (agentId: string, updates: Partial<SMEAgent>) => void;
   agentChats: AgentChat[];
   addAgentChat: (chat: AgentChat) => void;
 }
@@ -87,6 +89,12 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setSMEAgents(prev => [...prev, agent]);
   };
 
+  const updateSMEAgent = (agentId: string, updates: Partial<SMEAgent>) => {
+    setSMEAgents(prev => prev.map(agent =>
+      agent.id === agentId ? { ...agent, ...updates } : agent
+    ));
+  };
+
   const addAgentChat = (chat: AgentChat) => {
     setAgentChats(prev => [...prev, chat]);
   };
@@ -108,6 +116,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         setIsSidebarCollapsed,
         smeAgents,
         addSMEAgent,
+        updateSMEAgent,
         agentChats,
         addAgentChat
       }}
