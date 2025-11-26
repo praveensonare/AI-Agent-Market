@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaTimes, FaArrowRight, FaArrowLeft, FaRobot } from 'react-icons/fa';
+import { FaTimes, FaArrowRight, FaArrowLeft, FaRobot, FaUpload, FaCheckCircle } from 'react-icons/fa';
 import { SMEAgent } from '../context/AppContext';
 
 interface CreateAgentModalProps {
@@ -19,11 +19,13 @@ const CreateAgentModal: React.FC<CreateAgentModalProps> = ({ isOpen, onClose, on
     rate: 0,
     rateCurrency: 'USD',
     professionalDetails: '',
-    prompts: '',
+    professionalDetailsFile: null as File | null,
     knowledgeBase: '',
+    knowledgeBaseFiles: [] as File[],
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const currencies = ['USD', 'SGD', 'EUR', 'GBP', 'INR'];
 
   if (!isOpen) return null;
 
@@ -39,11 +41,8 @@ const CreateAgentModal: React.FC<CreateAgentModalProps> = ({ isOpen, onClose, on
     if (!formData.location.trim()) {
       newErrors.location = 'Location is required';
     }
-    if (formData.rate <= 0) {
-      newErrors.rate = 'Rate must be greater than 0';
-    }
-    if (!formData.professionalDetails.trim()) {
-      newErrors.professionalDetails = 'Professional details are required';
+    if (!formData.image.trim()) {
+      newErrors.image = 'Agent image is required';
     }
 
     setErrors(newErrors);
@@ -53,11 +52,14 @@ const CreateAgentModal: React.FC<CreateAgentModalProps> = ({ isOpen, onClose, on
   const validateStep2 = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.prompts.trim()) {
-      newErrors.prompts = 'Agent prompts are required';
+    if (!formData.professionalDetails.trim()) {
+      newErrors.professionalDetails = 'Professional details are required';
     }
     if (!formData.knowledgeBase.trim()) {
       newErrors.knowledgeBase = 'Knowledge base is required';
+    }
+    if (formData.rate <= 0) {
+      newErrors.rate = 'Rate must be greater than 0';
     }
 
     setErrors(newErrors);
@@ -75,6 +77,34 @@ const CreateAgentModal: React.FC<CreateAgentModalProps> = ({ isOpen, onClose, on
     setErrors({});
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData(prev => ({ ...prev, image: reader.result as string }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleProfessionalDetailsFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFormData(prev => ({ ...prev, professionalDetailsFile: file }));
+    }
+  };
+
+  const handleKnowledgeBaseFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length > 0) {
+      setFormData(prev => ({
+        ...prev,
+        knowledgeBaseFiles: [...prev.knowledgeBaseFiles, ...files]
+      }));
+    }
+  };
+
   const handleCreate = () => {
     if (validateStep2()) {
       const newAgent: SMEAgent = {
@@ -87,9 +117,9 @@ const CreateAgentModal: React.FC<CreateAgentModalProps> = ({ isOpen, onClose, on
         rate: formData.rate,
         rateCurrency: formData.rateCurrency,
         professionalDetails: formData.professionalDetails,
-        prompts: formData.prompts,
+        prompts: '',
         knowledgeBase: formData.knowledgeBase,
-        knowledgeBaseFiles: [],
+        knowledgeBaseFiles: formData.knowledgeBaseFiles.map(f => f.name),
         createdAt: new Date().toISOString(),
         totalChats: 0,
         activeChats: 0,
@@ -115,8 +145,9 @@ const CreateAgentModal: React.FC<CreateAgentModalProps> = ({ isOpen, onClose, on
       rate: 0,
       rateCurrency: 'USD',
       professionalDetails: '',
-      prompts: '',
+      professionalDetailsFile: null,
       knowledgeBase: '',
+      knowledgeBaseFiles: [],
     });
     setErrors({});
   };
@@ -173,14 +204,14 @@ const CreateAgentModal: React.FC<CreateAgentModalProps> = ({ isOpen, onClose, on
                   className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${
                     errors.name ? 'border-red-500' : 'border-gray-300'
                   }`}
-                  placeholder="e.g., Dr. Smith"
+                  placeholder="e.g., Dr. AI Healthcare Expert"
                 />
                 {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Specialization *
+                  Speciality *
                 </label>
                 <input
                   type="text"
@@ -189,7 +220,7 @@ const CreateAgentModal: React.FC<CreateAgentModalProps> = ({ isOpen, onClose, on
                   className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${
                     errors.speciality ? 'border-red-500' : 'border-gray-300'
                   }`}
-                  placeholder="e.g., Medical Consultant"
+                  placeholder="e.g., Healthcare AI Specialist"
                 />
                 {errors.speciality && <p className="text-red-500 text-sm mt-1">{errors.speciality}</p>}
               </div>
@@ -212,106 +243,157 @@ const CreateAgentModal: React.FC<CreateAgentModalProps> = ({ isOpen, onClose, on
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Rate per Hour *
+                  Payment Currency *
                 </label>
-                <div className="flex gap-2">
-                  <input
-                    type="number"
-                    value={formData.rate}
-                    onChange={(e) => setFormData({ ...formData, rate: parseFloat(e.target.value) || 0 })}
-                    className={`flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${
-                      errors.rate ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                    placeholder="0.00"
-                    min="0"
-                    step="0.01"
-                  />
-                  <select
-                    value={formData.rateCurrency}
-                    onChange={(e) => setFormData({ ...formData, rateCurrency: e.target.value })}
-                    className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  >
-                    <option value="USD">USD</option>
-                    <option value="EUR">EUR</option>
-                    <option value="GBP">GBP</option>
-                    <option value="INR">INR</option>
-                  </select>
-                </div>
-                {errors.rate && <p className="text-red-500 text-sm mt-1">{errors.rate}</p>}
+                <select
+                  value={formData.currency}
+                  onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                >
+                  {currencies.map(curr => (
+                    <option key={curr} value={curr}>{curr}</option>
+                  ))}
+                </select>
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Agent Image URL (Optional)
+                  Agent Image *
                 </label>
-                <input
-                  type="url"
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  placeholder="https://example.com/image.jpg"
-                />
-                <p className="text-xs text-gray-600 mt-1">
-                  Leave empty to use a default avatar based on the agent's name
-                </p>
+                <div className="flex items-center gap-4">
+                  {formData.image && (
+                    <img
+                      src={formData.image}
+                      alt="Agent preview"
+                      className="w-20 h-20 rounded-full object-cover border-2 border-primary-600"
+                    />
+                  )}
+                  <label className="btn-secondary cursor-pointer flex items-center gap-2">
+                    <FaUpload />
+                    Upload Image
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+                {errors.image && <p className="text-red-500 text-sm mt-1">{errors.image}</p>}
+                {!formData.image && (
+                  <p className="text-sm text-gray-500 mt-2">Please upload an image for your agent</p>
+                )}
               </div>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <h3 className="text-lg font-bold text-gray-800 mb-4">Professional Details & Charges</h3>
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Professional Details *
                 </label>
+                <p className="text-xs text-gray-500 mb-2">Role, what you do, how you do</p>
                 <textarea
                   value={formData.professionalDetails}
                   onChange={(e) => setFormData({ ...formData, professionalDetails: e.target.value })}
-                  rows={5}
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${
+                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 min-h-[100px] ${
                     errors.professionalDetails ? 'border-red-500' : 'border-gray-300'
                   }`}
-                  placeholder="Describe your agent's professional background, expertise, and qualifications..."
+                  placeholder="Describe your role, expertise, and approach..."
                 />
                 {errors.professionalDetails && <p className="text-red-500 text-sm mt-1">{errors.professionalDetails}</p>}
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              <h3 className="text-lg font-bold text-gray-800 mb-4">Agent Configuration</h3>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Agent Prompts *
+                <label className="btn-secondary cursor-pointer inline-flex items-center gap-2 mt-2">
+                  <FaUpload />
+                  Upload Document
+                  <input
+                    type="file"
+                    accept=".pdf,.doc,.docx,.txt"
+                    onChange={handleProfessionalDetailsFile}
+                    className="hidden"
+                  />
                 </label>
-                <textarea
-                  value={formData.prompts}
-                  onChange={(e) => setFormData({ ...formData, prompts: e.target.value })}
-                  rows={8}
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 font-mono text-sm ${
-                    errors.prompts ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  placeholder="Enter system prompts and instructions for your AI agent..."
-                />
-                {errors.prompts && <p className="text-red-500 text-sm mt-1">{errors.prompts}</p>}
-                <p className="text-sm text-gray-600 mt-2">
-                  Define how your agent should behave, respond, and interact with users.
-                </p>
+                {formData.professionalDetailsFile && (
+                  <p className="text-sm text-green-600 mt-2 flex items-center gap-1">
+                    <FaCheckCircle />
+                    {formData.professionalDetailsFile.name}
+                  </p>
+                )}
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Knowledge Base *
                 </label>
+                <p className="text-xs text-gray-500 mb-2">Upload your knowledge base as text or files</p>
                 <textarea
                   value={formData.knowledgeBase}
                   onChange={(e) => setFormData({ ...formData, knowledgeBase: e.target.value })}
-                  rows={8}
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${
+                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 min-h-[150px] ${
                     errors.knowledgeBase ? 'border-red-500' : 'border-gray-300'
                   }`}
-                  placeholder="Enter knowledge base information, FAQs, and reference materials..."
+                  placeholder="Enter your knowledge base content here, or upload files below..."
                 />
                 {errors.knowledgeBase && <p className="text-red-500 text-sm mt-1">{errors.knowledgeBase}</p>}
-                <p className="text-sm text-gray-600 mt-2">
-                  Add domain-specific knowledge, FAQs, and information your agent should reference.
-                </p>
+                <label className="btn-secondary cursor-pointer inline-flex items-center gap-2 mt-2">
+                  <FaUpload />
+                  Upload Files
+                  <input
+                    type="file"
+                    multiple
+                    accept=".pdf,.doc,.docx,.txt"
+                    onChange={handleKnowledgeBaseFiles}
+                    className="hidden"
+                  />
+                </label>
+                {formData.knowledgeBaseFiles.length > 0 && (
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-700 font-semibold">Uploaded files:</p>
+                    <ul className="text-sm text-green-600 space-y-1">
+                      {formData.knowledgeBaseFiles.map((file, idx) => (
+                        <li key={idx} className="flex items-center gap-1">
+                          <FaCheckCircle />
+                          {file.name}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Charges *
+                </label>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs text-gray-600 mb-1">Rate (per hour)</label>
+                    <input
+                      type="number"
+                      min="0"
+                      step="1"
+                      value={formData.rate}
+                      onChange={(e) => setFormData({ ...formData, rate: parseFloat(e.target.value) || 0 })}
+                      className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${
+                        errors.rate ? 'border-red-500' : 'border-gray-300'
+                      }`}
+                      placeholder="e.g., 150"
+                    />
+                    {errors.rate && <p className="text-red-500 text-sm mt-1">{errors.rate}</p>}
+                  </div>
+                  <div>
+                    <label className="block text-xs text-gray-600 mb-1">Currency</label>
+                    <select
+                      value={formData.rateCurrency}
+                      onChange={(e) => setFormData({ ...formData, rateCurrency: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    >
+                      {currencies.map(curr => (
+                        <option key={curr} value={curr}>{curr}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -350,8 +432,8 @@ const CreateAgentModal: React.FC<CreateAgentModalProps> = ({ isOpen, onClose, on
                 onClick={handleCreate}
                 className="btn-primary px-6 py-2 flex items-center gap-2"
               >
-                <FaRobot />
-                Create Agent
+                <FaCheckCircle />
+                Finish
               </button>
             )}
           </div>
