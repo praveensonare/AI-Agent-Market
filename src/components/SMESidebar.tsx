@@ -43,6 +43,11 @@ const SMESidebar: React.FC<SMESidebarProps> = ({
     alert('Profile feature coming soon!');
   };
 
+  const handleMyAgents = () => {
+    setSelectedView('myAgents');
+    setIsOpen(false);
+  };
+
   const menuItems = [
     {
       id: 'myAgents' as const,
@@ -198,6 +203,19 @@ const SMESidebar: React.FC<SMESidebarProps> = ({
                     <p className="font-semibold text-gray-800">Wallet</p>
                     <p className="text-sm text-gray-600">${user?.wallet.toLocaleString()}</p>
                   </div>
+                )}
+              </button>
+
+              <button
+                onClick={handleMyAgents}
+                className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left ${
+                  isSidebarCollapsed ? 'justify-center' : ''
+                }`}
+                title={isSidebarCollapsed ? 'My Agents' : ''}
+              >
+                <FaRobot className="text-primary-600 text-lg" />
+                {!isSidebarCollapsed && (
+                  <span className="font-semibold text-gray-800">My Agents</span>
                 )}
               </button>
 

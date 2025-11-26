@@ -79,17 +79,17 @@ const Dashboard: React.FC = () => {
 
         {/* Search and Filters Section */}
         <div className="bg-white shadow-md">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             {/* Search Bar */}
-            <div className="mb-6">
+            <div className="mb-4">
               <div className="relative">
-                <FaSearch className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
+                <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-base" />
                 <input
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search by name or specialization..."
-                  className="w-full pl-14 pr-5 py-4 border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 shadow-sm hover:shadow-md text-lg"
+                  className="w-full pl-12 pr-5 py-3 border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 shadow-sm hover:shadow-md text-base"
                 />
                 {searchTerm && (
                   <button
@@ -103,16 +103,16 @@ const Dashboard: React.FC = () => {
             </div>
 
             {/* Filters */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {/* Specialization Filter */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-xs font-medium text-gray-700 mb-1.5">
                   Specialization
                 </label>
                 <select
                   value={filters.specialization}
                   onChange={(e) => handleFilterChange('specialization', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                 >
                   {specializations.map(spec => (
                     <option key={spec} value={spec}>{spec}</option>
@@ -122,13 +122,13 @@ const Dashboard: React.FC = () => {
 
               {/* Location Filter */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-xs font-medium text-gray-700 mb-1.5">
                   Location
                 </label>
                 <select
                   value={filters.location}
                   onChange={(e) => handleFilterChange('location', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                 >
                   {locations.map(loc => (
                     <option key={loc} value={loc}>{loc}</option>
@@ -138,7 +138,7 @@ const Dashboard: React.FC = () => {
 
               {/* Rating Filter */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-xs font-medium text-gray-700 mb-1.5">
                   Minimum Rating
                 </label>
                 <div className="flex items-center gap-2">
@@ -159,7 +159,7 @@ const Dashboard: React.FC = () => {
 
               {/* Cost Filter */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-xs font-medium text-gray-700 mb-1.5">
                   Max Cost ($/hr)
                 </label>
                 <div className="flex items-center gap-2">
@@ -180,7 +180,7 @@ const Dashboard: React.FC = () => {
             </div>
 
             {/* Active Filters Display */}
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-3 flex flex-wrap gap-2">
               {filters.specialization !== 'All Specializations' && (
                 <span className="inline-flex items-center gap-2 px-3 py-1 bg-primary-100 text-primary-800 rounded-full text-sm">
                   {filters.specialization}
@@ -210,21 +210,21 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Agent Cards Grid */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="mb-4">
-            <p className="text-gray-600">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="mb-3">
+            <p className="text-gray-600 text-sm">
               Found <span className="font-semibold text-primary-600">{filteredAgents.length}</span> AI agents
             </p>
           </div>
 
           {filteredAgents.length === 0 ? (
-            <div className="text-center py-16">
-              <div className="text-6xl mb-4">🔍</div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">No agents found</h3>
-              <p className="text-gray-600">Try adjusting your filters or search terms</p>
+            <div className="text-center py-12">
+              <div className="text-5xl mb-3">🔍</div>
+              <h3 className="text-xl font-bold text-gray-800 mb-2">No agents found</h3>
+              <p className="text-gray-600 text-sm">Try adjusting your filters or search terms</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
               {filteredAgents.map((agent, index) => (
                 <AgentCard
                   key={agent.id}

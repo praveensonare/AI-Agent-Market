@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaTimes, FaWallet, FaUser, FaSignOutAlt, FaChevronDown, FaComments, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaTimes, FaWallet, FaUser, FaSignOutAlt, FaChevronDown, FaComments, FaChevronLeft, FaChevronRight, FaRobot } from 'react-icons/fa';
 import { useApp } from '../context/AppContext';
 
 interface SidebarProps {
@@ -29,6 +29,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
 
   const handleProfile = () => {
     alert('Profile feature coming soon!');
+  };
+
+  const handleMyAgents = () => {
+    navigate('/my-agents');
+    setIsOpen(false);
   };
 
   return (
@@ -193,6 +198,19 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
                     <p className="font-semibold text-gray-800">Wallet</p>
                     <p className="text-sm text-gray-600">${user?.wallet.toLocaleString()}</p>
                   </div>
+                )}
+              </button>
+
+              <button
+                onClick={handleMyAgents}
+                className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left ${
+                  isSidebarCollapsed ? 'justify-center' : ''
+                }`}
+                title={isSidebarCollapsed ? 'My Agents' : ''}
+              >
+                <FaRobot className="text-primary-600 text-lg" />
+                {!isSidebarCollapsed && (
+                  <span className="font-semibold text-gray-800">My Agents</span>
                 )}
               </button>
 

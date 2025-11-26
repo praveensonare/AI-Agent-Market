@@ -61,12 +61,14 @@ const Login: React.FC = () => {
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
         </div>
 
-        {/* Background Image */}
+        {/* Background Image - High Resolution AI Marketplace */}
         <div
-          className="absolute inset-0 bg-cover bg-center mix-blend-overlay opacity-30"
+          className="absolute inset-0 bg-cover bg-center mix-blend-overlay opacity-40"
           style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=800&fit=crop&q=80)',
+            backgroundImage: 'url(https://images.unsplash.com/photo-1655720828018-edd2daec9349?w=2400&h=1600&fit=crop&q=100)',
             backgroundPosition: 'center',
+            backgroundSize: 'cover',
+            imageRendering: 'crisp-edges',
           }}
         ></div>
 

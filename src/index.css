@@ -3,15 +3,27 @@
 @tailwind utilities;
 
 @layer base {
+  /* High-resolution display optimizations */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
   body {
     @apply bg-gray-50 text-gray-900;
     font-family: 'Inter', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    /* Improved text clarity for high-DPI displays */
+    font-feature-settings: 'kern' 1, 'liga' 1;
+    font-kerning: normal;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Inter', 'Segoe UI', sans-serif;
     font-weight: 700;
     letter-spacing: -0.02em;
+    /* Enhanced readability on high-res displays */
+    font-feature-settings: 'kern' 1;
   }
 }
 
@@ -37,7 +49,7 @@
   }
 
   .card {
-    @apply bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100;
+    @apply bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100;
   }
 }
 

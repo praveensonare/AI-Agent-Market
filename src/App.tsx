@@ -7,6 +7,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import Dashboard from './pages/Dashboard';
 import SMEDashboard from './pages/SMEDashboard';
 import ChatInterface from './pages/ChatInterface';
+import MyAgents from './pages/MyAgents';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user } = useApp();
@@ -65,6 +66,14 @@ const AppRoutes: React.FC = () => {
         element={
           <ProtectedRoute>
             <ChatInterface />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/my-agents"
+        element={
+          <ProtectedRoute>
+            <MyAgents />
           </ProtectedRoute>
         }
       />

@@ -86,69 +86,69 @@ const SMEDashboard: React.FC = () => {
               {selectedView === 'dashboard' && (
                 <>
                   {/* Analytics Overview */}
-                  <div className="mb-8">
-                    <h2 className="text-2xl font-bold text-gray-800 mb-6">Analytics Overview</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-                      <div className="card p-6 transform hover:scale-105 transition-all duration-300">
-                        <div className="flex items-center justify-between mb-2">
-                          <p className="text-sm text-gray-600">Total Agents</p>
-                          <FaRobot className="text-2xl text-primary-600" />
+                  <div className="mb-6">
+                    <h2 className="text-xl font-bold text-gray-800 mb-4">Analytics Overview</h2>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+                      <div className="card p-4 transform hover:scale-[1.02] transition-all duration-300">
+                        <div className="flex items-center justify-between mb-1.5">
+                          <p className="text-xs font-medium text-gray-600">Total Agents</p>
+                          <FaRobot className="text-xl text-primary-600" />
                         </div>
-                        <p className="text-3xl font-bold text-gray-800">{totalAgents}</p>
+                        <p className="text-2xl font-bold text-gray-800">{totalAgents}</p>
                       </div>
 
-                      <div className="card p-6 transform hover:scale-105 transition-all duration-300">
-                        <div className="flex items-center justify-between mb-2">
-                          <p className="text-sm text-gray-600">Active Agents</p>
-                          <FaChartLine className="text-2xl text-green-600" />
+                      <div className="card p-4 transform hover:scale-[1.02] transition-all duration-300">
+                        <div className="flex items-center justify-between mb-1.5">
+                          <p className="text-xs font-medium text-gray-600">Active Agents</p>
+                          <FaChartLine className="text-xl text-green-600" />
                         </div>
-                        <p className="text-3xl font-bold text-gray-800">{activeAgents}</p>
+                        <p className="text-2xl font-bold text-gray-800">{activeAgents}</p>
                         {activeAgents === 0 && (
-                          <p className="text-xs text-gray-500 mt-1">No active conversations</p>
+                          <p className="text-[10px] text-gray-500 mt-0.5">No active chats</p>
                         )}
                       </div>
 
-                      <div className="card p-6 transform hover:scale-105 transition-all duration-300">
-                        <div className="flex items-center justify-between mb-2">
-                          <p className="text-sm text-gray-600">Total Chats</p>
-                          <FaComments className="text-2xl text-blue-600" />
+                      <div className="card p-4 transform hover:scale-[1.02] transition-all duration-300">
+                        <div className="flex items-center justify-between mb-1.5">
+                          <p className="text-xs font-medium text-gray-600">Total Chats</p>
+                          <FaComments className="text-xl text-blue-600" />
                         </div>
-                        <p className="text-3xl font-bold text-gray-800">{totalChats}</p>
+                        <p className="text-2xl font-bold text-gray-800">{totalChats}</p>
                         {totalChats === 0 && (
-                          <p className="text-xs text-gray-500 mt-1">Waiting for first chat</p>
+                          <p className="text-[10px] text-gray-500 mt-0.5">Waiting for first</p>
                         )}
                       </div>
 
-                      <div className="card p-6 transform hover:scale-105 transition-all duration-300">
-                        <div className="flex items-center justify-between mb-2">
-                          <p className="text-sm text-gray-600">Engagement</p>
-                          <FaChartLine className="text-2xl text-purple-600" />
+                      <div className="card p-4 transform hover:scale-[1.02] transition-all duration-300">
+                        <div className="flex items-center justify-between mb-1.5">
+                          <p className="text-xs font-medium text-gray-600">Engagement</p>
+                          <FaChartLine className="text-xl text-purple-600" />
                         </div>
-                        <p className="text-3xl font-bold text-gray-800">{avgEngagement}%</p>
+                        <p className="text-2xl font-bold text-gray-800">{avgEngagement}%</p>
                         {parseFloat(avgEngagement) === 0 && (
-                          <p className="text-xs text-gray-500 mt-1">No data yet</p>
+                          <p className="text-[10px] text-gray-500 mt-0.5">No data yet</p>
                         )}
                       </div>
 
-                      <div className="card p-6 transform hover:scale-105 transition-all duration-300">
-                        <div className="flex items-center justify-between mb-2">
-                          <p className="text-sm text-gray-600">Avg Rating</p>
-                          <FaStar className="text-2xl text-yellow-500" />
+                      <div className="card p-4 transform hover:scale-[1.02] transition-all duration-300">
+                        <div className="flex items-center justify-between mb-1.5">
+                          <p className="text-xs font-medium text-gray-600">Avg Rating</p>
+                          <FaStar className="text-xl text-yellow-500" />
                         </div>
-                        <p className="text-3xl font-bold text-gray-800">{avgRating}</p>
+                        <p className="text-2xl font-bold text-gray-800">{avgRating}</p>
                         {parseFloat(avgRating) === 0 && (
-                          <p className="text-xs text-gray-500 mt-1">No ratings yet</p>
+                          <p className="text-[10px] text-gray-500 mt-0.5">No ratings yet</p>
                         )}
                       </div>
 
-                      <div className="card p-6 transform hover:scale-105 transition-all duration-300">
-                        <div className="flex items-center justify-between mb-2">
-                          <p className="text-sm text-gray-600">Revenue</p>
-                          <span className="text-2xl">💰</span>
+                      <div className="card p-4 transform hover:scale-[1.02] transition-all duration-300">
+                        <div className="flex items-center justify-between mb-1.5">
+                          <p className="text-xs font-medium text-gray-600">Revenue</p>
+                          <span className="text-xl">💰</span>
                         </div>
-                        <p className="text-3xl font-bold text-gray-800">${totalRevenue}</p>
+                        <p className="text-2xl font-bold text-gray-800">${totalRevenue}</p>
                         {totalRevenue === 0 && (
-                          <p className="text-xs text-gray-500 mt-1">Start earning!</p>
+                          <p className="text-[10px] text-gray-500 mt-0.5">Start earning!</p>
                         )}
                       </div>
                     </div>
@@ -156,7 +156,7 @@ const SMEDashboard: React.FC = () => {
 
                   {/* Individual Agent Statistics */}
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-800 mb-6">Agent Performance</h2>
+                    <h2 className="text-xl font-bold text-gray-800 mb-4">Agent Performance</h2>
                     {totalChats === 0 ? (
                       <div className="card p-10 text-center">
                         <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-100 rounded-full mb-4">
@@ -168,22 +168,22 @@ const SMEDashboard: React.FC = () => {
                         </p>
                       </div>
                     ) : (
-                      <div className="space-y-4">
+                      <div className="space-y-3">
                       {smeAgents.map(agent => {
                         const chats = getAgentChats(agent.id);
                         return (
-                          <div key={agent.id} className="card p-6">
-                            <div className="flex items-start gap-4">
+                          <div key={agent.id} className="card p-4">
+                            <div className="flex items-start gap-3">
                               <img
                                 src={agent.image}
                                 alt={agent.name}
-                                className="w-16 h-16 rounded-full object-cover"
+                                className="w-14 h-14 rounded-full object-cover"
                               />
                               <div className="flex-1">
-                                <div className="flex items-start justify-between mb-2">
+                                <div className="flex items-start justify-between mb-1.5">
                                   <div>
-                                    <h3 className="text-xl font-bold text-gray-800">{agent.name}</h3>
-                                    <p className="text-sm text-gray-600">{agent.speciality}</p>
+                                    <h3 className="text-lg font-bold text-gray-800">{agent.name}</h3>
+                                    <p className="text-xs text-gray-600">{agent.speciality}</p>
                                   </div>
                                   <button
                                     onClick={() => setSelectedAgentForChats(
@@ -197,32 +197,32 @@ const SMEDashboard: React.FC = () => {
                                   </button>
                                 </div>
 
-                                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-4">
+                                <div className="grid grid-cols-3 md:grid-cols-6 gap-3 mt-3">
                                   <div>
-                                    <p className="text-xs text-gray-600">Total Chats</p>
-                                    <p className="text-lg font-bold text-gray-800">{agent.totalChats}</p>
+                                    <p className="text-[10px] text-gray-600 font-medium">Total Chats</p>
+                                    <p className="text-base font-bold text-gray-800">{agent.totalChats}</p>
                                   </div>
                                   <div>
-                                    <p className="text-xs text-gray-600">Active Chats</p>
-                                    <p className="text-lg font-bold text-gray-800">{agent.activeChats}</p>
+                                    <p className="text-[10px] text-gray-600 font-medium">Active Chats</p>
+                                    <p className="text-base font-bold text-gray-800">{agent.activeChats}</p>
                                   </div>
                                   <div>
-                                    <p className="text-xs text-gray-600">Engagement</p>
-                                    <p className="text-lg font-bold text-gray-800">{agent.engagementScore}%</p>
+                                    <p className="text-[10px] text-gray-600 font-medium">Engagement</p>
+                                    <p className="text-base font-bold text-gray-800">{agent.engagementScore}%</p>
                                   </div>
                                   <div>
-                                    <p className="text-xs text-gray-600">Rating</p>
-                                    <p className="text-lg font-bold text-gray-800 flex items-center">
-                                      {agent.rating} <FaStar className="text-yellow-500 ml-1 text-sm" />
+                                    <p className="text-[10px] text-gray-600 font-medium">Rating</p>
+                                    <p className="text-base font-bold text-gray-800 flex items-center">
+                                      {agent.rating} <FaStar className="text-yellow-500 ml-1 text-xs" />
                                     </p>
                                   </div>
                                   <div>
-                                    <p className="text-xs text-gray-600">Rate</p>
-                                    <p className="text-lg font-bold text-gray-800">{agent.rate} {agent.rateCurrency}/hr</p>
+                                    <p className="text-[10px] text-gray-600 font-medium">Rate</p>
+                                    <p className="text-base font-bold text-gray-800">{agent.rate} {agent.rateCurrency}/hr</p>
                                   </div>
                                   <div>
-                                    <p className="text-xs text-gray-600">Revenue</p>
-                                    <p className="text-lg font-bold text-gray-800">${agent.totalRevenue}</p>
+                                    <p className="text-[10px] text-gray-600 font-medium">Revenue</p>
+                                    <p className="text-base font-bold text-gray-800">${agent.totalRevenue}</p>
                                   </div>
                                 </div>
 
@@ -281,25 +281,25 @@ const SMEDashboard: React.FC = () => {
 
               {selectedView === 'myAgents' && (
                 <div>
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-                    <h2 className="text-2xl font-bold text-gray-800">My Agents</h2>
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+                    <h2 className="text-xl font-bold text-gray-800">My Agents</h2>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {smeAgents.map(agent => (
-                      <div key={agent.id} className="card p-6">
+                      <div key={agent.id} className="card p-4">
                         <img
                           src={agent.image}
                           alt={agent.name}
-                          className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+                          className="w-20 h-20 rounded-full mx-auto mb-3 object-cover"
                         />
-                        <h3 className="text-xl font-bold text-gray-800 text-center mb-2">
+                        <h3 className="text-lg font-bold text-gray-800 text-center mb-1.5 leading-tight">
                           {agent.name}
                         </h3>
-                        <p className="text-gray-600 text-center mb-4">{agent.speciality}</p>
-                        <div className="space-y-2 text-sm">
+                        <p className="text-gray-600 text-center mb-3 text-xs">{agent.speciality}</p>
+                        <div className="space-y-1.5 text-xs">
                           <div className="flex justify-between">
                             <span className="text-gray-600">Location:</span>
-                            <span className="font-semibold">{agent.location}</span>
+                            <span className="font-semibold truncate ml-2">{agent.location}</span>
                           </div>
                           <div className="flex justify-between">
                             <span className="text-gray-600">Rate:</span>
@@ -308,7 +308,7 @@ const SMEDashboard: React.FC = () => {
                           <div className="flex justify-between">
                             <span className="text-gray-600">Rating:</span>
                             <span className="font-semibold flex items-center">
-                              {agent.rating} <FaStar className="text-yellow-500 ml-1" />
+                              {agent.rating} <FaStar className="text-yellow-500 ml-1 text-xs" />
                             </span>
                           </div>
                           <div className="flex justify-between">
