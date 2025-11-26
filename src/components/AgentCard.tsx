@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaStar, FaMapMarkerAlt, FaDollarSign, FaArrowRight, FaComments } from 'react-icons/fa';
+import { FaStar, FaMapMarkerAlt, FaDollarSign, FaArrowRight } from 'react-icons/fa';
 import { AIAgent } from '../data/demoData';
 
 interface AgentCardProps {
