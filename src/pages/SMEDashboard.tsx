@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
-import { FaChartLine, FaRobot, FaComments, FaStar, FaChevronDown } from 'react-icons/fa';
+import { FaChartLine, FaRobot, FaComments, FaStar, FaChevronDown, FaPlus } from 'react-icons/fa';
 import { useApp } from '../context/AppContext';
 import SMESidebar from '../components/SMESidebar';
+import SMEAgentCard from '../components/SMEAgentCard';
+import AgentDetailsModal from '../components/AgentDetailsModal';
+import AgentPerformanceModal from '../components/AgentPerformanceModal';
+import CreateAgentModal from '../components/CreateAgentModal';
+import { SMEAgent } from '../context/AppContext';
 
 const SMEDashboard: React.FC = () => {
-  const { user, smeAgents, agentChats, isSidebarCollapsed } = useApp();
+  const { user, smeAgents, agentChats, isSidebarCollapsed, addSMEAgent, updateSMEAgent } = useApp();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedView, setSelectedView] = useState<'dashboard' | 'myAgents' | 'analytics'>('dashboard');
   const [selectedAgentForChats, setSelectedAgentForChats] = useState<string | null>(null);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [selectedAgentForDetails, setSelectedAgentForDetails] = useState<SMEAgent | null>(null);
+  const [selectedAgentForPerformance, setSelectedAgentForPerformance] = useState<SMEAgent | null>(null);
 
   // Check if user has any agents
   const hasAgents = smeAgents.length > 0;
@@ -284,39 +292,14 @@ const SMEDashboard: React.FC = () => {
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                     <h2 className="text-2xl font-bold text-gray-800">My Agents</h2>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {smeAgents.map(agent => (
-                      <div key={agent.id} className="card p-6">
-                        <img
-                          src={agent.image}
-                          alt={agent.name}
-                          className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
-                        />
-                        <h3 className="text-xl font-bold text-gray-800 text-center mb-2">
-                          {agent.name}
-                        </h3>
-                        <p className="text-gray-600 text-center mb-4">{agent.speciality}</p>
-                        <div className="space-y-2 text-sm">
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Location:</span>
-                            <span className="font-semibold">{agent.location}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Rate:</span>
-                            <span className="font-semibold">{agent.rate} {agent.rateCurrency}/hr</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Rating:</span>
-                            <span className="font-semibold flex items-center">
-                              {agent.rating} <FaStar className="text-yellow-500 ml-1" />
-                            </span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Total Chats:</span>
-                            <span className="font-semibold">{agent.totalChats}</span>
-                          </div>
-                        </div>
-                      </div>
+                      <SMEAgentCard
+                        key={agent.id}
+                        agent={agent}
+                        onMoreClick={(agent) => setSelectedAgentForDetails(agent)}
+                        onPerformanceClick={(agent) => setSelectedAgentForPerformance(agent)}
+                      />
                     ))}
                   </div>
                 </div>
@@ -399,7 +382,41 @@ const SMEDashboard: React.FC = () => {
             </>
           )}
         </div>
+
+        {/* Floating Create AI-Agent Button */}
+        <button
+          onClick={() => setIsCreateModalOpen(true)}
+          className="fixed bottom-8 right-8 w-16 h-16 bg-primary-600 hover:bg-primary-700 text-white rounded-full shadow-2xl flex items-center justify-center transform hover:scale-110 transition-all duration-300 z-40"
+          title="Create AI Agent"
+        >
+          <FaPlus className="text-2xl" />
+        </button>
       </div>
+
+      {/* Modals */}
+      <CreateAgentModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onCreateAgent={addSMEAgent}
+      />
+
+      {selectedAgentForDetails && (
+        <AgentDetailsModal
+          agent={selectedAgentForDetails}
+          isOpen={!!selectedAgentForDetails}
+          onClose={() => setSelectedAgentForDetails(null)}
+          onSave={updateSMEAgent}
+        />
+      )}
+
+      {selectedAgentForPerformance && (
+        <AgentPerformanceModal
+          agent={selectedAgentForPerformance}
+          chats={agentChats.filter(chat => chat.agentId === selectedAgentForPerformance.id)}
+          isOpen={!!selectedAgentForPerformance}
+          onClose={() => setSelectedAgentForPerformance(null)}
+        />
+      )}
     </div>
   );
 };
